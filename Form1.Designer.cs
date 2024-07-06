@@ -41,6 +41,8 @@
             label6 = new Label();
             label7 = new Label();
             label8 = new Label();
+            button2 = new Button();
+            button3 = new Button();
             ((System.ComponentModel.ISupportInitialize)webView21).BeginInit();
             SuspendLayout();
             // 
@@ -70,40 +72,42 @@
             // 
             // textBox1
             // 
-            textBox1.Font = new Font("Arial Narrow", 8F);
-            textBox1.Location = new Point(91, 35);
+            textBox1.Font = new Font("Arial", 14F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            textBox1.Location = new Point(125, 35);
             textBox1.Multiline = true;
             textBox1.Name = "textBox1";
-            textBox1.Size = new Size(400, 118);
+            textBox1.PasswordChar = '*';
+            textBox1.Size = new Size(366, 118);
             textBox1.TabIndex = 2;
             // 
             // label1
             // 
             label1.AutoSize = true;
-            label1.Font = new Font("Arial", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label1.Location = new Point(17, 79);
+            label1.Font = new Font("Arial", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label1.Location = new Point(19, 49);
             label1.Name = "label1";
-            label1.Size = new Size(68, 21);
+            label1.Size = new Size(91, 29);
             label1.TabIndex = 3;
             label1.Text = "REMID";
             // 
             // label2
             // 
             label2.AutoSize = true;
-            label2.Font = new Font("Arial", 10.5F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label2.Location = new Point(30, 225);
+            label2.Font = new Font("Arial", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label2.Location = new Point(35, 191);
             label2.Name = "label2";
-            label2.Size = new Size(44, 24);
+            label2.Size = new Size(53, 29);
             label2.TabIndex = 5;
             label2.Text = "SID";
             // 
             // textBox2
             // 
-            textBox2.Font = new Font("Arial Narrow", 8F);
-            textBox2.Location = new Point(91, 177);
+            textBox2.Font = new Font("Arial", 14F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            textBox2.Location = new Point(125, 177);
             textBox2.Multiline = true;
             textBox2.Name = "textBox2";
-            textBox2.Size = new Size(400, 119);
+            textBox2.PasswordChar = '*';
+            textBox2.Size = new Size(366, 119);
             textBox2.TabIndex = 4;
             // 
             // label3
@@ -133,11 +137,11 @@
             label5.AutoSize = true;
             label5.Font = new Font("Microsoft YaHei UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 134);
             label5.ForeColor = Color.Maroon;
-            label5.Location = new Point(43, 732);
+            label5.Location = new Point(43, 741);
             label5.Name = "label5";
-            label5.Size = new Size(420, 200);
+            label5.Size = new Size(420, 175);
             label5.TabIndex = 8;
-            label5.Text = "重要!!!\r\n同一天内不要过多执行登录操作\r\nEA会对频繁获取Cookie的IP进行封禁并封号\r\n\r\nImportant!!!\r\nDo not log in too many times in the same day\r\nEA will block and suspend \r\nIP addresses that frequently obtain cookies";
+            label5.Text = "重要!!!\r\n同一天内不要过多执行登录操作\r\nEA会对频繁获取Cookie的IP进行封禁并封号\r\nImportant!!!\r\nDo not log in too many times in the same day\r\nEA will block and suspend \r\nIP addresses that frequently obtain cookies";
             label5.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // label6
@@ -174,13 +178,37 @@
             label8.Name = "label8";
             label8.Size = new Size(203, 25);
             label8.TabIndex = 11;
-            label8.Text = "Ver 0.0.1 By B1397KB";
+            label8.Text = "Ver 0.0.2 By B1397KB";
+            // 
+            // button2
+            // 
+            button2.Font = new Font("Arial", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            button2.Location = new Point(12, 81);
+            button2.Name = "button2";
+            button2.Size = new Size(98, 60);
+            button2.TabIndex = 12;
+            button2.Text = "复制\r\nCopy";
+            button2.UseVisualStyleBackColor = true;
+            button2.Click += button2_Click;
+            // 
+            // button3
+            // 
+            button3.Font = new Font("Arial", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            button3.Location = new Point(12, 223);
+            button3.Name = "button3";
+            button3.Size = new Size(98, 60);
+            button3.TabIndex = 13;
+            button3.Text = "复制\r\nCopy";
+            button3.UseVisualStyleBackColor = true;
+            button3.Click += button3_Click;
             // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(11F, 24F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1034, 1029);
+            Controls.Add(button3);
+            Controls.Add(button2);
             Controls.Add(label8);
             Controls.Add(label7);
             Controls.Add(label6);
@@ -217,5 +245,7 @@
         private Label label6;
         private Label label7;
         private Label label8;
+        private Button button2;
+        private Button button3;
     }
 }

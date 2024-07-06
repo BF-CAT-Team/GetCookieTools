@@ -76,7 +76,7 @@ namespace GetEACookie
                 File.WriteAllText(configPath, jsonString);
                 textBox1.Text = remid;
                 textBox2.Text = sid;
-                MessageBox.Show("获取Cookie成功! 请前往程序文本栏处或程序根目录cookie.json文件夹查看cookie\nSuccessfully obtained cookies! Please go to the program text bar or the program root directory cookie.txt folder to view the cookies", "获取成功 Get Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("获取Cookie成功! 请前往程序文本栏处复制或程序根目录cookie.json文件夹查看cookie\nGet Cookie successfully! Please go to the program text bar to copy or the program root directory cookie.json folder to view the cookie", "获取成功 Get Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
 
@@ -134,6 +134,34 @@ namespace GetEACookie
             {
                 MessageBox.Show($"无法打开链接: {ex.Message}", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            
+            if (textBox2 != null && !string.IsNullOrEmpty(textBox2.Text))
+            {
+                Clipboard.SetText(textBox2.Text);
+                MessageBox.Show("Sid已复制到剪贴板！\nSid copied to clipboard!", "成功 SUCCESS", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            else
+            {
+                MessageBox.Show("Sid文本框为空或不存在。\nThe text box is empty or does not exist.", "错误 ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            if (textBox1 != null && !string.IsNullOrEmpty(textBox1.Text))
+            {
+                Clipboard.SetText(textBox1.Text);
+                MessageBox.Show("Remid已复制到剪贴板！\nRemid copied to clipboard!", "成功 SUCCESS", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            else
+            {
+                MessageBox.Show("Remid文本框为空或不存在。\nThe text box is empty or does not exist.", "错误 ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            
         }
     }
 }
