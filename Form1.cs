@@ -79,32 +79,45 @@ namespace GetEACookie
                         { "sid", sid },
                         { "remid", remid }
                     };
-                // 检查文件是否存在
-                if (File.Exists(configPath))
+                try
                 {
-                    // 文件存在，读取现有内容
-                    var existingContent = File.ReadAllText(configPath);
-                    var existingConfig = JsonSerializer.Deserialize<Dictionary<string, string>>(existingContent);
-
-                    // 合并新字段到现有内容中
-                    foreach (var field in config)
+                    // 检查文件是否存在
+                    if (File.Exists(configPath))
                     {
-                        existingConfig[field.Key] = field.Value;
+                        // 文件存在，读取现有内容
+                        var existingContent = File.ReadAllText(configPath);
+                        var existingConfig = JsonSerializer.Deserialize<Dictionary<string, object>>(existingContent);
+
+                        if (existingConfig == null)
+                        {
+                            existingConfig = new Dictionary<string, object>();
+                        }
+
+                        // 合并新字段到现有内容中
+                        foreach (var field in config)
+                        {
+                            existingConfig[field.Key] = field.Value;
+                        }
+
+                        // 将更新后的内容写回文件
+                        string updatedJsonString = JsonSerializer.Serialize(existingConfig, new JsonSerializerOptions { WriteIndented = true });
+                        File.WriteAllText(configPath, updatedJsonString);
+                    }
+                    else
+                    {
+                        // 文件不存在，直接写入新内容
+                        string newJsonString = JsonSerializer.Serialize(config, new JsonSerializerOptions { WriteIndented = true });
+                        File.WriteAllText(configPath, newJsonString);
                     }
 
-                    // 将更新后的内容写回文件
-                    string updatedJsonString = JsonSerializer.Serialize(existingConfig, new JsonSerializerOptions { WriteIndented = true });
-                    File.WriteAllText(configPath, updatedJsonString);
+                    textBox1.Text = remid;
+                    textBox2.Text = sid;
+                    MessageBox.Show("获取Cookie成功! 请前往程序文本栏处复制或程序根目录cookie.json文件夹查看cookie\nGet Cookie successfully! Please go to the program text bar to copy or the program root directory cookie.json folder to view the cookie", "获取成功 Get Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
-                else
+                catch (Exception ex)
                 {
-                    // 文件不存在，直接写入新内容
-                    string newJsonString = JsonSerializer.Serialize(config, new JsonSerializerOptions { WriteIndented = true });
-                    File.WriteAllText(configPath, newJsonString);
+                    MessageBox.Show($"发生错误: {ex.Message}", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
-                textBox1.Text = remid;
-                textBox2.Text = sid;
-                MessageBox.Show("获取Cookie成功! 请前往程序文本栏处复制或程序根目录cookie.json文件夹查看cookie\nGet Cookie successfully! Please go to the program text bar to copy or the program root directory cookie.json folder to view the cookie", "获取成功 Get Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
 
