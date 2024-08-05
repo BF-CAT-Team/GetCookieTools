@@ -119,16 +119,14 @@
   </resheader>
   <data name="label4.Text" xml:space="preserve">
     <value>How to use?
-First, open this program and wait for the browser on the 
-right to load, Then log in to the EA account in the browser 
-and check the option to remember this device
+First, open this program and wait for the browser on the right to load, 
+Then log in to the EA account in the browser and check the option to remember this device
 
-After successful login, 
-this program will pop up a prompt 
-to successfully obtain the cookie
-If successful, you can read the cookie 
-in the text box above this program
-Or view the cookie in the config.json 
-file in the root directory</value>
+After successful login, this program will pop up a prompt to successfully obtain the cookie
+If successful, you can read the cookie in the text box above this program
+Or view the cookie in the config.json file in the root directory</value>
   </data>
+  <metadata name="timer1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>17, 17</value>
+  </metadata>
 </root>

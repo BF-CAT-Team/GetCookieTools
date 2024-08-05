@@ -2,14 +2,21 @@ using Microsoft.Web.WebView2.Core;
 using System.Diagnostics;
 using System.IO;
 using System.Security.Cryptography;
+using System.Text.Json;
+using OtpNet;
 
 namespace GetEACookie
 {
     public partial class Form1 : Form
     {
+
+        private string _secret;
+        private const int OtpValidityPeriod = 30; // OTP 有效期（秒）
+
         public Form1()
         {
             InitializeComponent();
+            SetupOtpGenerator();
         }
 
         private void webView21_CoreWebView2InitializationCompleted(object sender, Microsoft.Web.WebView2.Core.CoreWebView2InitializationCompletedEventArgs e)
@@ -72,8 +79,29 @@ namespace GetEACookie
                         { "sid", sid },
                         { "remid", remid }
                     };
-                string jsonString = System.Text.Json.JsonSerializer.Serialize(config); // 修改此处的命名空间
-                File.WriteAllText(configPath, jsonString);
+                // 检查文件是否存在
+                if (File.Exists(configPath))
+                {
+                    // 文件存在，读取现有内容
+                    var existingContent = File.ReadAllText(configPath);
+                    var existingConfig = JsonSerializer.Deserialize<Dictionary<string, string>>(existingContent);
+
+                    // 合并新字段到现有内容中
+                    foreach (var field in config)
+                    {
+                        existingConfig[field.Key] = field.Value;
+                    }
+
+                    // 将更新后的内容写回文件
+                    string updatedJsonString = JsonSerializer.Serialize(existingConfig, new JsonSerializerOptions { WriteIndented = true });
+                    File.WriteAllText(configPath, updatedJsonString);
+                }
+                else
+                {
+                    // 文件不存在，直接写入新内容
+                    string newJsonString = JsonSerializer.Serialize(config, new JsonSerializerOptions { WriteIndented = true });
+                    File.WriteAllText(configPath, newJsonString);
+                }
                 textBox1.Text = remid;
                 textBox2.Text = sid;
                 MessageBox.Show("获取Cookie成功! 请前往程序文本栏处复制或程序根目录cookie.json文件夹查看cookie\nGet Cookie successfully! Please go to the program text bar to copy or the program root directory cookie.json folder to view the cookie", "获取成功 Get Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -138,7 +166,7 @@ namespace GetEACookie
 
         private void button3_Click(object sender, EventArgs e)
         {
-            
+
             if (textBox2 != null && !string.IsNullOrEmpty(textBox2.Text))
             {
                 Clipboard.SetText(textBox2.Text);
@@ -161,7 +189,59 @@ namespace GetEACookie
             {
                 MessageBox.Show("Remid文本框为空或不存在。\nThe text box is empty or does not exist.", "错误 ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-            
+
         }
+
+
+
+
+        private void OnOtpTimerTick(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(_secret))
+                return;
+
+            var otp = GenerateOtp(_secret);
+            label9.Text = otp;
+
+            int elapsed = (int)DateTime.Now.Subtract(DateTime.Now.Date).TotalSeconds;
+            int remaining = OtpValidityPeriod - (elapsed % OtpValidityPeriod);
+            progressBar1.Value = (int)(100 - (double)remaining / OtpValidityPeriod * 100);
+        }
+
+        private void SetupOtpGenerator()
+        {
+            timer1.Interval = 1000; // 每秒钟触发一次
+            timer1.Tick += OnOtpTimerTick;
+            timer1.Start();
+        }
+
+        private static string GenerateOtp(string secret)
+        {
+            try
+            {
+                var otpKey = Base32Encoding.ToBytes(secret);
+                var otp = new Totp(otpKey);
+                return otp.ComputeTotp();
+            }
+            catch (Exception)
+            {
+                return "-1";
+            }
+        }
+
+        private void textBox3_TextChanged(object sender, EventArgs e)
+        {
+            _secret = textBox3.Text;
+        }
+
+        private void label9_Click(object sender, EventArgs e)
+        {
+            if (!string.IsNullOrEmpty(label9.Text))
+            {
+                Clipboard.SetText(label9.Text);
+                MessageBox.Show("OTP copied to clipboard!", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+        }
+
     }
 }
